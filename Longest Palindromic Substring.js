@@ -3,36 +3,39 @@
  * @return {string}
  */
 var longestPalindrome = function(s) {
+    if(s===null || s.length < 1 )return "";
 
-    let stack=[];
-    let current=-1;
-    for (let index = 0; index < s.length; index++) {
-        if(!stack.includes(s[index])){
-            stack.push(s[index]);
-            current++;
-        }else if(stack[current]==s[index] || stack[current-1]==s[index]){
-            stack.reverse();
-            if(!stack[current--]==s[index]){
-                stack=longestPalindrome(s.slice(0,1));
-            }else{
-                stack.push()
-            }
+    let start=0;
+    let end=0;
 
-        }else{
-            stack=longestPalindrome(s.slice(0,1));
+    for(let i=0;i<s.length;i++){
+        let len1=expandFromMiddle(s,i,i);
+        let len2=expandFromMiddle(s,i,i+1);
+        let len=Math.max(len1,len2);
+        if(len > end-start){
+            start= Math.ceil(i -((len-1)/2));
+            end = i + Math.floor(len / 2);
         }
+
     }
-    return stack;
+    return s.slice(start, end + 1);
+
+    function expandFromMiddle(s,left,right){
+        if(s===null || left > right) return 0;
+
+        while(left >=0 && right < s.length && s[left]===s[right]){
+            left--;
+            right++;
+        }
+        return right-left-1;
+    }
+
 };
 
 
-console.log(longestPalindrome("baba"));
+console.log(longestPalindrome("cbbd"));
 
 
-
-
-console.log(longestPalindrome("abcdcba"));
-console.log(longestPalindrome("abccba"));
 
 
 

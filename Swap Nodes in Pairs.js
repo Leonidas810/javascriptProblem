@@ -16,7 +16,8 @@ var swapPairs = function(head) {
     let auxNode = null;
     
     function dfs (node){
-        if(!node || !node.next)return;
+        if(!node) return null;
+        if(!node.next) return node;
         if(node.val !==node.next.val){
             pointer = node.next.next;
             auxNode = node;
@@ -24,10 +25,7 @@ var swapPairs = function(head) {
             node.next = auxNode;
             node.next.next = pointer
         }
-        console.log(node?.val,node?.next?.val,node?.next?.next?.val,node?.next?.next?.next?.val)
-        dfs(node.next.next);
-        console.log(node?.val,node?.next?.val,node?.next?.next?.val,node?.next?.next?.next?.val)
-
+        node.next.next = dfs(node.next.next);
         return node;
     }
 
